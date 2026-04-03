@@ -1,0 +1,14 @@
+[project]
+name = "jobtrackr-cli"
+version = "0.1.0"
+description = "Simple CLI to track job applications with SQLite"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Your Name"}]
+
+[project.scripts]
+jobtrackr = "jobtrackr.cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
