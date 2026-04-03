@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PulseDesk</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell">
+      <section class="hero reveal">
+        <div>
+          <p class="eyebrow">PulseDesk</p>
+          <h1>Professional local operations hub with a real backend.</h1>
+          <p class="lede">
+            Manage tasks, leads, activity, and server-side persistence from one
+            responsive dashboard. Data is stored in a local SQLite database on
+            your machine.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button id="refresh-button" type="button">Sync dashboard</button>
+          <button id="export-button" type="button" class="secondary-button">Export JSON</button>
+        </div>
+      </section>
+
+      <section class="stats-grid reveal" id="stats-grid">
+        <article class="stat-card">
+          <p>Open Tasks</p>
+          <strong id="open-task-count">0</strong>
+          <span>Items still active</span>
+        </article>
+        <article class="stat-card">
+          <p>High Priority</p>
+          <strong id="high-priority-count">0</strong>
+          <span>Needs attention soon</span>
+        </article>
+        <article class="stat-card">
+          <p>Pipeline</p>
+          <strong id="lead-count">0</strong>
+          <span>Total tracked leads</span>
+        </article>
+        <article class="stat-card">
+          <p>Server Time</p>
+          <strong id="server-time">--:--</strong>
+          <span>Latest backend sync</span>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <section class="panel panel-wide reveal">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-label">Task system</p>
+              <h2>Plan, update, and close work</h2>
+            </div>
+            <select id="task-filter" aria-label="Task filter">
+              <option value="all">All tasks</option>
+              <option value="todo">To do</option>
+              <option value="in_progress">In progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+
+          <form id="task-form" class="form-grid">
+            <input id="task-title" name="title" type="text" placeholder="Task title" required />
+            <input id="task-due-date" name="dueDate" type="date" />
+            <select id="task-priority" name="priority" aria-label="Task priority">
+              <option value="high">High priority</option>
+              <option value="medium" selected>Medium priority</option>
+              <option value="low">Low priority</option>
+            </select>
+            <textarea
+              id="task-detail"
+              name="detail"
+              rows="3"
+              placeholder="Context, owner notes, or definition of done"
+            ></textarea>
+            <button type="submit">Add task</button>
+          </form>
+
+          <div id="task-list" class="stack-list"></div>
+        </section>
+
+        <section class="column-stack">
+          <section class="panel reveal">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-label">Lead tracker</p>
+                <h2>Collect and qualify pipeline</h2>
+              </div>
+            </div>
+
+            <form id="lead-form" class="form-grid">
+              <input id="lead-name" name="name" type="text" placeholder="Lead name" required />
+              <input id="lead-company" name="company" type="text" placeholder="Company" />
+              <input id="lead-email" name="email" type="email" placeholder="Email" />
+              <select id="lead-stage" name="stage" aria-label="Lead stage">
+                <option value="new">New</option>
+                <option value="qualified">Qualified</option>
+                <option value="proposal">Proposal</option>
+                <option value="won">Won</option>
+              </select>
+              <textarea
+                id="lead-note"
+                name="note"
+                rows="3"
+                placeholder="Lead notes, next step, or meeting details"
+              ></textarea>
+              <button type="submit">Add lead</button>
+            </form>
+
+            <div id="lead-list" class="stack-list compact-list"></div>
+          </section>
+
+          <section class="panel reveal">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-label">Activity</p>
+                <h2>Recent server-side changes</h2>
+              </div>
+            </div>
+
+            <div id="activity-list" class="activity-list"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <template id="task-template">
+      <article class="item-card">
+        <div class="item-header">
+          <div>
+            <h3 class="item-title"></h3>
+            <p class="item-meta"></p>
+          </div>
+          <span class="pill item-priority"></span>
+        </div>
+        <p class="item-detail"></p>
+        <div class="item-actions">
+          <select class="status-select" aria-label="Update task status">
+            <option value="todo">To do</option>
+            <option value="in_progress">In progress</option>
+            <option value="done">Done</option>
+          </select>
+          <button type="button" class="danger-button delete-button">Delete</button>
+        </div>
+      </article>
+    </template>
+
+    <template id="lead-template">
+      <article class="item-card lead-card">
+        <div class="item-header">
+          <div>
+            <h3 class="item-title"></h3>
+            <p class="item-meta"></p>
+          </div>
+          <span class="pill item-stage"></span>
+        </div>
+        <p class="item-detail"></p>
+        <div class="item-actions">
+          <select class="stage-select" aria-label="Update lead stage">
+            <option value="new">New</option>
+            <option value="qualified">Qualified</option>
+            <option value="proposal">Proposal</option>
+            <option value="won">Won</option>
+          </select>
+          <button type="button" class="danger-button delete-button">Delete</button>
+        </div>
+      </article>
+    </template>
+
+    <template id="activity-template">
+      <article class="activity-item">
+        <p class="activity-message"></p>
+        <span class="activity-time"></span>
+      </article>
+    </template>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
