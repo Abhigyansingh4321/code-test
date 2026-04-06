@@ -45,12 +45,3 @@ http://127.0.0.1:8000
 - `DELETE /api/leads/<id>`: delete a lead
 - `GET /api/export`: export all current data as JSON
 
-## GitHub
-
-Changes appear in your GitHub repository only after you commit and push them:
-
-```bash
-git add .
-git commit -m "Build PulseDesk app"
-git push origin main
-```
